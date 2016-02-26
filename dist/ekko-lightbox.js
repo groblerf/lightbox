@@ -405,6 +405,8 @@ License: https://github.com/ashleydw/lightbox/blob/master/LICENSE
     }
   };
 
+  //Save a possible conflicting lightbox
+  var old = $.fn.ekkoLightbox;
   $.fn.ekkoLightbox = function(options) {
     return this.each(function() {
       var $this;
@@ -436,5 +438,21 @@ License: https://github.com/ashleydw/lightbox/blob/master/LICENSE
     onNavigate: function() {},
     onContentLoaded: function() {}
   };
+
+    $.fn.ekkoLightbox.Constructor = EkkoLightbox;
+
+    // MODAL DATA-API
+    // ==============
+    $(document).on('click.bs.ekkoLightbox.data-api', '[data-toggle="lightbox"]', function (e) {
+        event.preventDefault();
+        $(this).ekkoLightbox();
+    });
+
+    // MODAL NO CONFLICT
+    // =================
+    $.fn.ekkoLightbox.noConflict = function () {
+        $.fn.ekkoLightbox = old;
+        return this;
+    }
 
 }).call(this);
